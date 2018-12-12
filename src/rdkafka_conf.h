@@ -90,6 +90,7 @@ typedef enum {
 	RD_KAFKA_CONFIGURED,
 	RD_KAFKA_LEARNED,
 	RD_KAFKA_INTERNAL,
+        RD_KAFKA_LOGICAL
 } rd_kafka_confsource_t;
 
 typedef	enum {

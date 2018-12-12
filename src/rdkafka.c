@@ -1706,10 +1706,8 @@ static int rd_kafka_thread_main (void *arg) {
                                      1000ll,
                                      rd_kafka_metadata_refresh_cb, NULL);
 
-        if (rk->rk_cgrp) {
-                rd_kafka_cgrp_reassign_broker(rk->rk_cgrp);
+        if (rk->rk_cgrp)
                 rd_kafka_q_fwd_set(rk->rk_cgrp->rkcg_ops, rk->rk_ops);
-        }
 
         if (rd_kafka_is_idempotent(rk))
                 rd_kafka_idemp_init(rk);
@@ -3406,10 +3404,10 @@ static void rd_kafka_dump0 (FILE *fp, rd_kafka_t *rk, int locks) {
                         RD_KAFKAP_STR_PR(rkcg->rkcg_group_id),
                         rd_kafka_cgrp_state_names[rkcg->rkcg_state],
                         rkcg->rkcg_flags);
-                fprintf(fp, "   coord_id %"PRId32", managing broker %s\n",
+                fprintf(fp, "   coord_id %"PRId32", broker %s\n",
                         rkcg->rkcg_coord_id,
-                        rkcg->rkcg_rkb ?
-                        rd_kafka_broker_name(rkcg->rkcg_rkb) : "(none)");
+                        rkcg->rkcg_curr_coord ?
+                        rd_kafka_broker_name(rkcg->rkcg_curr_coord):"(none)");
 
                 fprintf(fp, "  toppars:\n");
                 RD_LIST_FOREACH(s_rktp, &rkcg->rkcg_toppars, i) {
